@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  margin: 50px auto;
+  background-color: grey;
+  border-radius: 10px;
+}
+
+.list-content {
+  box-sizing: border-box;
+  position: relative;
+  top: 11px;
+  left: 10px;
+  padding: 10px;
+  width: 480px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.submit-btn {
+  position: relative;
+  top: 5px;
+  width: 50px;
+  height: 30px;
+  border-radius: 5px;
+  border: none;
+  background-color: #fc989c;
+  color: white;
+}
