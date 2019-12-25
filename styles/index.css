@@ -5,31 +5,76 @@
 
 .wrapper {
   position: relative;
-  width: 500px;
+  width: 550px;
   height: 500px;
   margin: 50px auto;
-  background-color: grey;
+  background-color: #cbcbcb;
   border-radius: 10px;
 }
 
-.list-content {
+.list-outline {
   box-sizing: border-box;
   position: relative;
   top: 11px;
   left: 10px;
   padding: 10px;
-  width: 480px;
+  width: 530px;
   background-color: white;
   border-radius: 10px;
 }
 
+.description {
+  padding: 10px;
+  font-style: italic;
+  font-size: 14px;
+}
+
+.tasks, .submit-btn {
+  margin: 0 0 20px 0;
+}
+
+.tasks {
+  width: 350px;
+  height: 25px;
+  outline-color: #7db6f2;
+}
+
 .submit-btn {
   position: relative;
-  top: 5px;
+  top: 10px;
   width: 50px;
-  height: 30px;
+  height: 25px;
   border-radius: 5px;
-  border: none;
-  background-color: #fc989c;
+  border: transparent;
+  border-width: 1px;
+  background-color: #fc989c; 
   color: white;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.submit-btn:hover, .operation-btn:hover {
+  cursor: pointer;
+  border: #fc989c;
+}
+
+.footer {
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 100px 0 0;
+  margin: 20px 0 0 0;
+  width: 495px;
+  height: 20px;
+  justify-content: flex-end;
+}
+
+.operation-btn {
+  padding: 0;
+  width: 80px;
+  height: 20px;
+  border: none;
+  background-color: white;
+  outline-color: #f6eded;
+  color: #fc989c;
+  text-align: center;
 }
