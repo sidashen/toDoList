@@ -64,18 +64,18 @@
   font-size: 14px;
 }
 
-.check, .check +label {
+.check, .check +span {
   cursor: pointer;
 }
 
-.check +label {
+.check +span {
   position: relative;
   top: -2px;
   padding-left: 5px;
 }
 
 li {
-  margin: 5px;
+  padding: 5px;
 }
 
 .footer {
