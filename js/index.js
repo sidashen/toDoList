@@ -7,8 +7,8 @@ addListBtn[0].addEventListener ('click', function (){
 });
 
 document.onkeydown = function (event) {
- 
-  if (e && e.keyCode == 13) {
+
+  if (event && event.keyCode == 13) {
     event.preventDefault();
     createToDoList();
     clearText();
@@ -16,11 +16,11 @@ document.onkeydown = function (event) {
 }
 
 function createToDoList() {
-  var showListContent = document.getElementsByClassName('list-content');
+  var showListContent = document.getElementsByClassName('all-list-content');
 
   if (tasksContent[0].value)  {
     var listContent = document.createElement('li');
-    listContent.innerHTML = `<input type="checkbox" class="check"/>${tasksContent[0].value}`;
+    listContent.innerHTML = `<input type="checkbox" class="check" id="list-content"/><label for="list-content">${tasksContent[0].value}</label>`;
     showListContent[0].appendChild(listContent);
   } else {
   return;
@@ -30,4 +30,5 @@ function createToDoList() {
 function clearText() {
   tasksContent[0].value = '';
 }
+
 
