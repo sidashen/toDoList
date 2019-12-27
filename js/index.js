@@ -11,6 +11,24 @@ var tasksArr = [];
 var index;
 localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 
+// listOutlineDOM[0].addEventListener('click', function(event) {
+//   switch (event.target.className) {
+//     case 'add-list-btn':
+//       createToDoList(event);
+//       clearInputText(event);
+//       break;
+//     case 'show-all':
+//       showAllList(event);
+//       selectBtnAction(event);
+//       break;
+//     case 'show-active':
+//       showActiveList(event);
+//       break;
+//     case 'show-complete':
+//       showCompleteList(event);
+//       break;
+//   }
+// })
 addListBtn[0].addEventListener('click', function (){
   createToDoList();
   clearInputText();
