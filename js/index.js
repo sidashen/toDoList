@@ -197,12 +197,22 @@ function showCompleteList() {
 function deleteListControl() {
   var deleteListBtn = document.getElementsByClassName('delete-btn');
   var deleteListBtnArr = Array.from(deleteListBtn);
+
   deleteListBtnArr.forEach(item => {
     item.addEventListener('click', function (event) {
       var target = event.target;
-      target.parentNode.parentNode.removeChild(target.parentNode);
+      confirmDeleteAction(target);
     });
   });
 }
 
+function confirmDeleteAction(target) {
+  var message = confirm('是否删除该 TODO？');
+  if (message == true) {
+    target.parentNode.parentNode.removeChild(target.parentNode);
+    alert('做完了吗你就删');
+  } else if( message == false) {
+    alert('卡是做不完的朋友');
+  }
+}
 
