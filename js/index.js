@@ -4,10 +4,11 @@ var showActiveBtn = document.getElementsByClassName('show-active');
 var showCompleteBtn = document.getElementsByClassName('show-complete');
 var showListContent = document.getElementsByClassName('all-list-content');
 var showAllListBtn = document.getElementsByClassName('show-all');
-var index;
 var listOutlineDOM = document.getElementsByClassName('list-outline');
 var footerDOM = document.getElementsByClassName('footer');
+var allActiveList = document.createElement('ol');
 var tasksArr = [];
+var index;
 localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 
 addListBtn[0].addEventListener('click', function (){
@@ -15,7 +16,7 @@ addListBtn[0].addEventListener('click', function (){
   clearInputText();
 });
 
-// showAllListBtn[0].addEventListener('click', showAllList);
+showAllListBtn[0].addEventListener('click', showAllList);
 
 showActiveBtn[0].addEventListener('click', showActiveList);
 
@@ -113,24 +114,35 @@ function tasksDataStorage(key, tasksInfo, checkStatus) {
   localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 }
 
-// function showAllList() {
-//   tasksArr = JSON.parse(localStorage.getItem('toDoList'));
-//   var new 
-// }
+function showAllList() {
+  tasksArr = JSON.parse(localStorage.getItem('toDoList'));
+  allActiveList.parentNode.removeChild(allActiveList);
+
+  var newAllList = document.createElement('ol');
+
+  tasksArr.forEach(item => {
+    var singleList = document.createElement('li');
+    singleList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
+    newAllList.appendChild(singleList);
+  })
+
+  listOutlineDOM[0].insertBefore(newAllList, footerDOM[0]);
+}
 
 function showActiveList() {
   tasksArr = JSON.parse(localStorage.getItem('toDoList'));
-  console.log(tasksArr);
   showListContent[0].parentNode.removeChild(showListContent[0]);
-  var allActiveList = document.createElement('ol');
+
   tasksArr.forEach(item => {
     if (item.isChecked === '') {
       var singleActiveList = document.createElement('li');
-      singleActiveList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span>`;
+      singleActiveList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
       allActiveList.appendChild(singleActiveList);
     };
   })
+
   listOutlineDOM[0].insertBefore(allActiveList, footerDOM[0]);
+  return allActiveList;
 }
 
 function showCompleteList() {
