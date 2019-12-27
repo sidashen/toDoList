@@ -209,8 +209,8 @@ function deleteListControl() {
 function confirmDeleteAction(target) {
   var message = confirm('是否删除该 TODO？');
   if (message == true) {
-    target.parentNode.parentNode.removeChild(target.parentNode);
     alert('做完了吗你就删');
+    target.parentNode.parentNode.removeChild(target.parentNode);
   } else if( message == false) {
     alert('卡是做不完的朋友');
   }
