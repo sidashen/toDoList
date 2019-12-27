@@ -45,16 +45,16 @@ function createToDoList() {
   var { key, tasksInfo, checkStatus} = selectBtnAction();
   tasksDataStorage(key, tasksInfo, checkStatus);
 
-  // deleteListBtn[0].addEventListener('click', deleteList(event, selectBtn));
+  deleteListControl();
 }
 
 function selectBtnAction() {
   var selectBtn = document.getElementsByClassName('check-box');
   var selectBtnArr = Array.from(selectBtn);
-  // var deleteListBtn = document.getElementsByClassName('delete-btn');
   var key = selectBtnArr.length;
   var tasksInfo = tasksContent[0].value;
   var checkStatus = '';
+
   selectBtnArr.forEach(item => {
     item.addEventListener('click', function (event) {
       var target = event.target;
@@ -62,7 +62,7 @@ function selectBtnAction() {
       changeCheckStatus(target, checkStatus);
     });
   });
-  return { key, tasksInfo, checkStatus};
+  return { key, tasksInfo, checkStatus, selectBtnArr};
 }
 
 function clearInputText() {
@@ -125,6 +125,7 @@ function showAllList() {
     showListContent[0].appendChild(singleList);
 
     selectBtnWithoutEvent();
+    deleteListControl();
   })
 }
 
@@ -154,7 +155,7 @@ function showActiveList() {
       singleActiveList.innerHTML = `<input type="checkbox" class="check-box" ${hasChecked}/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
       showListContent[0].appendChild(singleActiveList);
     }
-
+    deleteListControl();
   })
 }
 
@@ -171,15 +172,19 @@ function showCompleteList() {
     };
 
     selectBtnWithoutEvent();
+    deleteListControl();
   })
 }
 
-// function deleteList(event, selectBtn) {
-//   for (i = 0; i < selectBtn.length; i++) {
-//     selectBtn[i].checked = event.target.checked;
-//     event.target.parentNode.parentNode.removeChild(event.target.parentNode);
-//   }
-// }
-
+function deleteListControl() {
+  var deleteListBtn = document.getElementsByClassName('delete-btn');
+  var deleteListBtnArr = Array.from(deleteListBtn);
+  deleteListBtnArr.forEach(item => {
+    item.addEventListener('click', function (event) {
+      var target = event.target;
+      target.parentNode.parentNode.removeChild(target.parentNode);
+    });
+  });
+}
 
 
