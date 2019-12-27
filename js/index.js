@@ -39,11 +39,16 @@ function createToDoList() {
   return;
   }
 
+  var { key, tasksInfo, checkStatus} = selectBtnAction();
+  tasksDataStorage(key, tasksInfo, checkStatus);
+
+  // deleteListBtn[0].addEventListener('click', deleteList(event, selectBtn));
+}
+
+function selectBtnAction() {
   var selectBtn = document.getElementsByClassName('check-box');
   var selectBtnArr = Array.from(selectBtn);
-  var deleteListBtn = document.getElementsByClassName('delete-btn');
-  console.log(selectBtnArr);
-
+  // var deleteListBtn = document.getElementsByClassName('delete-btn');
   var key = selectBtnArr.length;
   var tasksInfo = tasksContent[0].value;
   var checkStatus = '';
@@ -52,14 +57,9 @@ function createToDoList() {
       var target = event.target;
       changeListStatus(target);
       changeCheckStatus(target, checkStatus);
-    })
+    });
   });
-
-  tasksDataStorage(key, tasksInfo, checkStatus);
-
-  // deleteListBtn[0].addEventListener('click', deleteList(event, selectBtn));
-
-  return selectBtnArr;
+  return { key, tasksInfo, checkStatus};
 }
 
 function clearInputText() {
@@ -116,33 +116,30 @@ function tasksDataStorage(key, tasksInfo, checkStatus) {
 
 function showAllList() {
   tasksArr = JSON.parse(localStorage.getItem('toDoList'));
-  allActiveList.parentNode.removeChild(allActiveList);
-
-  var newAllList = document.createElement('ol');
+  showListContent[0].innerHTML = '';
 
   tasksArr.forEach(item => {
     var singleList = document.createElement('li');
     singleList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
-    newAllList.appendChild(singleList);
+    showListContent[0].appendChild(singleList);
   })
 
-  listOutlineDOM[0].insertBefore(newAllList, footerDOM[0]);
+  // selectBtnAction();
 }
 
 function showActiveList() {
   tasksArr = JSON.parse(localStorage.getItem('toDoList'));
-  showListContent[0].parentNode.removeChild(showListContent[0]);
+  showListContent[0].innerHTML = '';
 
   tasksArr.forEach(item => {
     if (item.isChecked === '') {
       var singleActiveList = document.createElement('li');
       singleActiveList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
-      allActiveList.appendChild(singleActiveList);
-    };
+      showListContent[0].appendChild(singleActiveList);
+    }
   })
 
-  listOutlineDOM[0].insertBefore(allActiveList, footerDOM[0]);
-  return allActiveList;
+  // selectBtnAction();
 }
 
 function showCompleteList() {
@@ -150,7 +147,7 @@ function showCompleteList() {
   tasksArr.forEach(item => {
     if (item.isChecked = 'checked') {
       var singleCompleteList = document.createElement('li');
-      singleCompleteList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span>`;
+      singleCompleteList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
       allCompleteList.appendChild(singleCompleteList);
     };
   })
@@ -162,7 +159,6 @@ function showCompleteList() {
 //     event.target.parentNode.parentNode.removeChild(event.target.parentNode);
 //   }
 // }
-
 
 
 
