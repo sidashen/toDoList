@@ -4,19 +4,22 @@ var showActiveBtn = document.getElementsByClassName('show-active');
 var showCompleteBtn = document.getElementsByClassName('show-complete');
 var showListContent = document.getElementsByClassName('all-list-content');
 var showAllListBtn = document.getElementsByClassName('show-all');
+var index;
+var listOutlineDOM = document.getElementsByClassName('list-outline');
+var footerDOM = document.getElementsByClassName('footer');
 var tasksArr = [];
 localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 
 addListBtn[0].addEventListener('click', function (){
   createToDoList();
-  clearText();
+  clearInputText();
 });
 
-showAllListBtn[0].addEventListener('click', showAllList);
+// showAllListBtn[0].addEventListener('click', showAllList);
 
-// showActiveBtn[0].addEventListener('click', showNewList(target));
+showActiveBtn[0].addEventListener('click', showActiveList);
 
-showCompleteBtn[0].addEventListener('click', hideNewList);
+showCompleteBtn[0].addEventListener('click', showCompleteList);
 
 document.onkeydown = function (event) {
 
@@ -27,50 +30,42 @@ document.onkeydown = function (event) {
 }
 
 function createToDoList() {
-  var selectBtn = document.getElementsByClassName('check-box');
-  var selectBtnArr = Array.from(selectBtn);
-  var key = selectBtnArr.length;
-  var tasksInfo = tasksContent[0].value;
-  var checkStatus = '';
-
   if (tasksContent[0].value)  {
     var listContent = document.createElement('li');
-    listContent.innerHTML = `<input type="checkbox" class="check-box"/><span>${tasksContent[0].value}</span>`;
+    listContent.innerHTML = `<input type="checkbox" class="check-box"/><span>${tasksContent[0].value}</span><input value="×" class="delete-btn"/>`;
     showListContent[0].appendChild(listContent);
   } else {
   return;
   }
 
+  var selectBtn = document.getElementsByClassName('check-box');
+  var selectBtnArr = Array.from(selectBtn);
+  var deleteListBtn = document.getElementsByClassName('delete-btn');
+  console.log(selectBtnArr);
+
+  var key = selectBtnArr.length;
+  var tasksInfo = tasksContent[0].value;
+  var checkStatus = '';
   selectBtnArr.forEach(item => {
     item.addEventListener('click', function (event) {
       var target = event.target;
-      completeList(target);
-      changeCheckStatus(target);
+      changeListStatus(target);
+      changeCheckStatus(target, checkStatus);
     })
   });
 
   tasksDataStorage(key, tasksInfo, checkStatus);
 
+  // deleteListBtn[0].addEventListener('click', deleteList(event, selectBtn));
+
   return selectBtnArr;
 }
 
-function clearText() {
+function clearInputText() {
   tasksContent[0].value = '';
 }
 
-// function showNewList(target) {
-//   if (target.checked) {
-//     target.parentNode.style.visibility = 'visible';
-//   } else {
-//     target.parentNode.style.visibility = 'hidden';
-//   }
-// }
-
-function hideNewList() {
-  showListContent[0].style.visibility = 'hidden';
-}
-
-function completeList(target) {
+function changeListStatus(target) {
   if (target.checked) {
     target.parentNode.style.color = 'grey';
     target.parentNode.style.textDecoration = 'line-through';
@@ -80,37 +75,29 @@ function completeList(target) {
   }
 }
 
-function changeCheckStatus(target) {
+function changeCheckStatus(target, checkStatus) {
+  tasksArr = JSON.parse(localStorage.getItem('toDoList'));
+
   if (target.checked) {
     checkStatus = 'checked';
   } else {
     checkStatus = '';
   }
-  var index = judgeIndex(target.parentNode);
+
+  console.log(target.parentNode);
+  judgeListIndex(target.parentNode);
   tasksArr[index].isChecked = checkStatus;
   localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 }
 
-function judgeIndex(list) {
-  tasksArr = JSON.parse(localStorage.getItem('toDoList'));
-  var index;
+function judgeListIndex(list) {
   tasksArr.forEach(item => {
     if (item.tasks === list.innerText) {
-      index = item.key;
+      index = item.key - 1;
     }
+    console.log(list.innerText);
+    console.log(item.tasks);
   });
-  return index;
-}
-
-// function showList(status) {
-//   switch(status) {
-//     case ():
-
-//   }
-// }
-
-function showAllList() {
-  showListContent[0].style.visibility = 'visible';
 }
 
 function tasksDataStorage(key, tasksInfo, checkStatus) {
@@ -125,6 +112,45 @@ function tasksDataStorage(key, tasksInfo, checkStatus) {
   tasksArr.push(tasksObj);
   localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 }
+
+// function showAllList() {
+//   tasksArr = JSON.parse(localStorage.getItem('toDoList'));
+//   var new 
+// }
+
+function showActiveList() {
+  tasksArr = JSON.parse(localStorage.getItem('toDoList'));
+  console.log(tasksArr);
+  showListContent[0].parentNode.removeChild(showListContent[0]);
+  var allActiveList = document.createElement('ol');
+  tasksArr.forEach(item => {
+    if (item.isChecked === '') {
+      var singleActiveList = document.createElement('li');
+      singleActiveList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span>`;
+      allActiveList.appendChild(singleActiveList);
+    };
+  })
+  listOutlineDOM[0].insertBefore(allActiveList, footerDOM[0]);
+}
+
+function showCompleteList() {
+  var allCompleteList = document.createElement('ol');
+  tasksArr.forEach(item => {
+    if (item.isChecked = 'checked') {
+      var singleCompleteList = document.createElement('li');
+      singleCompleteList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span>`;
+      allCompleteList.appendChild(singleCompleteList);
+    };
+  })
+}
+
+// function deleteList(event, selectBtn) {
+//   for (i = 0; i < selectBtn.length; i++) {
+//     selectBtn[i].checked = event.target.checked;
+//     event.target.parentNode.parentNode.removeChild(event.target.parentNode);
+//   }
+// }
+
 
 
 
