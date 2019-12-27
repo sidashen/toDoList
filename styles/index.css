@@ -81,13 +81,15 @@ ol {
 }
 
 li {
+  position: relative;
   padding: 5px;
+  vertical-align: middle;
 }
 
 .delete-btn {
-  position: relative;
-  top: 2px;
-  left: 380px;
+  position: absolute;
+  top: 7px;
+  right: 10px;
   width: 15px;
   height: 15px;
   display: none;
