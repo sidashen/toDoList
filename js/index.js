@@ -16,7 +16,10 @@ addListBtn[0].addEventListener('click', function (){
   clearInputText();
 });
 
-showAllListBtn[0].addEventListener('click', showAllList);
+showAllListBtn[0].addEventListener('click', function () {
+  showAllList();
+  selectBtnAction();
+});
 
 showActiveBtn[0].addEventListener('click', showActiveList);
 
@@ -85,7 +88,6 @@ function changeCheckStatus(target, checkStatus) {
     checkStatus = '';
   }
 
-  console.log(target.parentNode);
   judgeListIndex(target.parentNode);
   tasksArr[index].isChecked = checkStatus;
   localStorage.setItem('toDoList', JSON.stringify(tasksArr));
@@ -96,8 +98,6 @@ function judgeListIndex(list) {
     if (item.tasks === list.innerText) {
       index = item.key - 1;
     }
-    console.log(list.innerText);
-    console.log(item.tasks);
   });
 }
 
@@ -120,11 +120,27 @@ function showAllList() {
 
   tasksArr.forEach(item => {
     var singleList = document.createElement('li');
-    singleList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
+    var hasChecked = item.isChecked ? "checked" : "";
+    singleList.innerHTML = `<input type="checkbox" class="check-box" ${hasChecked}/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
     showListContent[0].appendChild(singleList);
-  })
 
-  // selectBtnAction();
+    selectBtnWithoutEvent();
+  })
+}
+
+function selectBtnWithoutEvent() {
+  var selectBtnApplication = document.getElementsByClassName('check-box');
+  var selectBtnApplicationArr = Array.from(selectBtnApplication);
+  selectBtnApplicationArr.forEach(item => {
+    if (item.checked) {
+      item.parentNode.style.color = 'grey';
+      item.parentNode.style.textDecoration = 'line-through';
+    }
+    else {
+      item.parentNode.style.color = 'black';
+      item.parentNode.style.textDecoration = 'none';
+    }
+  });
 }
 
 function showActiveList() {
@@ -134,22 +150,27 @@ function showActiveList() {
   tasksArr.forEach(item => {
     if (item.isChecked === '') {
       var singleActiveList = document.createElement('li');
-      singleActiveList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
+      var hasChecked = item.isChecked ? "checked" : "";
+      singleActiveList.innerHTML = `<input type="checkbox" class="check-box" ${hasChecked}/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
       showListContent[0].appendChild(singleActiveList);
     }
-  })
 
-  // selectBtnAction();
+  })
 }
 
 function showCompleteList() {
-  var allCompleteList = document.createElement('ol');
+  tasksArr = JSON.parse(localStorage.getItem('toDoList'));
+  showListContent[0].innerHTML = '';
+
   tasksArr.forEach(item => {
-    if (item.isChecked = 'checked') {
+    if (item.isChecked === 'checked') {
       var singleCompleteList = document.createElement('li');
-      singleCompleteList.innerHTML = `<input type="checkbox" class="check-box"/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
-      allCompleteList.appendChild(singleCompleteList);
+      var hasChecked = item.isChecked ? "checked" : "";
+      singleCompleteList.innerHTML = `<input type="checkbox" class="check-box" ${hasChecked}/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
+      showListContent[0].appendChild(singleCompleteList);
     };
+
+    selectBtnWithoutEvent();
   })
 }
 
