@@ -112,6 +112,14 @@ function changeListStatus(target) {
   }
 }
 
+function judgeListIndex(list) {
+  tasksArr.forEach(item => {
+    if (item.tasks === list.innerText) {
+      index = item.key - 1;
+    }
+  });
+}
+
 function changeCheckStatus(target, checkStatus) {
   tasksArr = JSON.parse(localStorage.getItem('toDoList'));
 
@@ -126,12 +134,13 @@ function changeCheckStatus(target, checkStatus) {
   localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 }
 
-function judgeListIndex(list) {
-  tasksArr.forEach(item => {
-    if (item.tasks === list.innerText) {
-      index = item.key - 1;
-    }
-  });
+function tasksDataDeletion(target) {
+  tasksArr = JSON.parse(localStorage.getItem('toDoList'));
+  judgeListIndex(target.parentNode);
+
+  tasksArr.splice(index, 1);
+
+  localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 }
 
 function tasksDataStorage(key, tasksInfo, checkStatus) {
@@ -173,7 +182,6 @@ function showActiveList() {
       singleActiveList.innerHTML = `<input type="checkbox" class="check-box" ${hasChecked}/><span>${item.tasks}</span><input value="×" class="delete-btn"/>`;
       showListContent[0].appendChild(singleActiveList);
     }
-    deleteListControl();
   })
 }
 
@@ -190,7 +198,6 @@ function showCompleteList() {
     };
 
     selectBtnWithoutEvent();
-    deleteListControl();
   })
 }
 
@@ -200,6 +207,7 @@ function deleteListControl() {
 
   deleteListBtnArr.forEach(item => {
     item.addEventListener('click', function (event) {
+      event.preventDefault();
       var target = event.target;
       confirmDeleteAction(target);
     });
@@ -211,8 +219,8 @@ function confirmDeleteAction(target) {
   if (message == true) {
     alert('做完了吗你就删');
     target.parentNode.parentNode.removeChild(target.parentNode);
+    tasksDataDeletion(target);
   } else if( message == false) {
     alert('卡是做不完的朋友');
   }
 }
-
