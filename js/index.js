@@ -83,6 +83,21 @@ function selectBtnAction() {
   return { key, tasksInfo, checkStatus, selectBtnArr};
 }
 
+function selectBtnWithoutEvent() {
+  var selectBtnApplication = document.getElementsByClassName('check-box');
+  var selectBtnApplicationArr = Array.from(selectBtnApplication);
+  selectBtnApplicationArr.forEach(item => {
+    if (item.checked) {
+      item.parentNode.style.color = 'grey';
+      item.parentNode.style.textDecoration = 'line-through';
+    }
+    else {
+      item.parentNode.style.color = 'black';
+      item.parentNode.style.textDecoration = 'none';
+    }
+  });
+}
+
 function clearInputText() {
   tasksContent[0].value = '';
 }
@@ -145,21 +160,6 @@ function showAllList() {
     selectBtnWithoutEvent();
     deleteListControl();
   })
-}
-
-function selectBtnWithoutEvent() {
-  var selectBtnApplication = document.getElementsByClassName('check-box');
-  var selectBtnApplicationArr = Array.from(selectBtnApplication);
-  selectBtnApplicationArr.forEach(item => {
-    if (item.checked) {
-      item.parentNode.style.color = 'grey';
-      item.parentNode.style.textDecoration = 'line-through';
-    }
-    else {
-      item.parentNode.style.color = 'black';
-      item.parentNode.style.textDecoration = 'none';
-    }
-  });
 }
 
 function showActiveList() {
