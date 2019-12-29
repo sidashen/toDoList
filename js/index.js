@@ -4,31 +4,11 @@ var showActiveBtn = document.getElementsByClassName('show-active');
 var showCompleteBtn = document.getElementsByClassName('show-complete');
 var showListContent = document.getElementsByClassName('all-list-content');
 var showAllListBtn = document.getElementsByClassName('show-all');
-var listOutlineDOM = document.getElementsByClassName('list-outline');
-var footerDOM = document.getElementsByClassName('footer');
 var allActiveList = document.createElement('ol');
 var tasksArr = [];
 var index;
 localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 
-// listOutlineDOM[0].addEventListener('click', function(event) {
-//   switch (event.target.className) {
-//     case 'add-list-btn':
-//       createToDoList(event);
-//       clearInputText(event);
-//       break;
-//     case 'show-all':
-//       showAllList(event);
-//       selectBtnAction(event);
-//       break;
-//     case 'show-active':
-//       showActiveList(event);
-//       break;
-//     case 'show-complete':
-//       showCompleteList(event);
-//       break;
-//   }
-// })
 addListBtn[0].addEventListener('click', function (){
   createToDoList();
   clearInputText();
@@ -47,7 +27,8 @@ document.onkeydown = function (event) {
 
   if (event && event.keyCode == 13) {
     event.preventDefault();
-    addListBtn[0].click();
+    createToDoList();
+    clearInputText();
   }
 }
 
@@ -134,15 +115,6 @@ function changeCheckStatus(target, checkStatus) {
   localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 }
 
-function tasksDataDeletion(target) {
-  tasksArr = JSON.parse(localStorage.getItem('toDoList'));
-  judgeListIndex(target.parentNode);
-
-  tasksArr.splice(index, 1);
-
-  localStorage.setItem('toDoList', JSON.stringify(tasksArr));
-}
-
 function tasksDataStorage(key, tasksInfo, checkStatus) {
   tasksArr = JSON.parse(localStorage.getItem('toDoList'));
 
@@ -202,6 +174,7 @@ function showCompleteList() {
 }
 
 function deleteListControl() {
+  tasksArr = JSON.parse(localStorage.getItem('toDoList'));
   var deleteListBtn = document.getElementsByClassName('delete-btn');
   var deleteListBtnArr = Array.from(deleteListBtn);
 
@@ -215,12 +188,13 @@ function deleteListControl() {
 }
 
 function confirmDeleteAction(target) {
+  var list = target.parentNode;
   var message = confirm('是否删除该 TODO？');
-  if (message == true) {
+
+  if (message) {
     alert('做完了吗你就删');
-    target.parentNode.parentNode.removeChild(target.parentNode);
-    tasksDataDeletion(target);
-  } else if( message == false) {
+    list.parentNode.removeChild(list);
+  } else if(!message) {
     alert('卡是做不完的朋友');
   }
 }

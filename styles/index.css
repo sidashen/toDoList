@@ -84,6 +84,7 @@ li {
   position: relative;
   padding: 5px;
   vertical-align: middle;
+  overflow-wrap: break-word;
 }
 
 .delete-btn {
