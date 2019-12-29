@@ -1,27 +1,28 @@
-var addListBtn = document.getElementsByClassName('add-list-btn');
 var tasksContent = document.getElementsByClassName('tasks');
-var showActiveBtn = document.getElementsByClassName('show-active');
-var showCompleteBtn = document.getElementsByClassName('show-complete');
 var showListContent = document.getElementsByClassName('all-list-content');
-var showAllListBtn = document.getElementsByClassName('show-all');
+var listOutline = document.getElementsByClassName('list-outline');
 var allActiveList = document.createElement('ol');
 var tasksArr = [];
 var index;
 localStorage.setItem('toDoList', JSON.stringify(tasksArr));
 
-addListBtn[0].addEventListener('click', function (){
-  createToDoList();
-  clearInputText();
-});
-
-showAllListBtn[0].addEventListener('click', function () {
-  showAllList();
-  selectBtnAction();
-});
-
-showActiveBtn[0].addEventListener('click', showActiveList);
-
-showCompleteBtn[0].addEventListener('click', showCompleteList);
+listOutline[0].addEventListener('click', function (event) {
+  let {classList} = event.target;
+  if (classList.contains('add-list-btn')) {
+    createToDoList();
+    clearInputText();
+  }  
+  if (classList.contains('show-all')) {
+    showAllList();
+    selectBtnAction();
+  }
+  if (classList.contains('show-active')) {
+    showActiveList();
+  }
+  if (classList.contains('show-complete')) {
+    showCompleteList();
+  }
+})
 
 document.onkeydown = function (event) {
 
@@ -41,7 +42,7 @@ function createToDoList() {
   return;
   }
 
-  var { key, tasksInfo, checkStatus} = selectBtnAction();
+  var {key, tasksInfo, checkStatus} = selectBtnAction();
   tasksDataStorage(key, tasksInfo, checkStatus);
 
   deleteListControl();
@@ -56,12 +57,12 @@ function selectBtnAction() {
 
   selectBtnArr.forEach(item => {
     item.addEventListener('click', function (event) {
-      var target = event.target;
+      let target = event.target;
       changeListStatus(target);
       changeCheckStatus(target, checkStatus);
     });
   });
-  return { key, tasksInfo, checkStatus, selectBtnArr};
+  return {key, tasksInfo, checkStatus, selectBtnArr};
 }
 
 function selectBtnWithoutEvent() {
